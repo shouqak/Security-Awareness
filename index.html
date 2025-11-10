@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-950 text-gray-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Security Awareness Quiz</title>
+  <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/2592/2592317.png" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .correct {
+      background-color: rgba(34,197,94,0.2) !important;
+      border-color: rgb(34,197,94) !important;
+      animation: pulseCorrect 0.4s ease;
+    }
+    .incorrect {
+      background-color: rgba(239,68,68,0.2) !important;
+      border-color: rgb(239,68,68) !important;
+      animation: shakeWrong 0.4s ease;
+    }
+    @keyframes shakeWrong {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    @keyframes pulseCorrect {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex justify-center py-10 px-4">
+<main class="w-full max-w-4xl space-y-6">
+
+<header class="rounded-xl bg-gray-900 border border-gray-800 p-6 shadow-lg">
+  <h1 class="text-2xl font-bold mb-2">Security Awareness </h1>
+  <p class="text-gray-300">Scammers may contact you through emails, messages, calls, links, or files.</p>
+  <p class="text-gray-300"><strong>They use pressure and urgency — don’t act quickly.</strong></p>
+  <ul class="text-gray-300 list-disc ml-6 mt-3 space-y-1 text-sm">
+    <li><strong>Verify</strong> unexpected requests.</li>
+    <li><strong>Do not share</strong> passwords or codes.</li>
+    <li><strong>Be careful</strong> with links and attachments.</li>
+    <li>If something feels <strong>off</strong>, stop and check.</li>
+  </ul>
+</header>
+
+<section class="space-y-2">
+  <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+    <div id="progressFill" class="h-full bg-cyan-400 transition-all duration-300" style="width:0%"></div>
+  </div>
+  <p class="text-sm text-gray-400"><span id="answeredCount">0</span>/<span id="totalCount">0</span> answered • <span id="percent">0%</span></p>
+</section>
+
+<form id="quiz" class="space-y-6" novalidate>
+
+<!-- Question Template Start -->
+<fieldset class="border border-gray-800 rounded-lg p-5 space-y-3" data-qid="q1" data-correct="False">
+  <legend class="font-semibold">1) Someone claiming to be IT requests your password.</legend>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer">
+    <input type="radio" name="q1" value="True" class="mr-2"> True
+  </label>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer">
+    <input type="radio" name="q1" value="False" class="mr-2"> False
+  </label>
+  <p class="explain hidden text-sm text-gray-400">IT will never ask for your password.</p>
+</fieldset>
+
+<fieldset class="border border-gray-800 rounded-lg p-5 space-y-3" data-qid="q2" data-correct="True">
+  <legend class="font-semibold">2) You receive an urgent email saying your account will be closed unless you click a link.</legend>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer">
+    <input type="radio" name="q2" value="True" class="mr-2"> True
+  </label>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer">
+    <input type="radio" name="q2" value="False" class="mr-2"> False
+  </label>
+  <p class="explain hidden text-sm text-gray-400">Scammers use urgency to trick you.</p>
+</fieldset>
+
+<fieldset class="border border-gray-800 rounded-lg p-5 space-y-3" data-qid="q3" data-correct="B">
+  <legend class="font-semibold">3) A coworker sends a strange file. What do you do?</legend>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q3" value="A" class="mr-2"> Open it</label>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q3" value="B" class="mr-2"> Verify by calling them</label>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q3" value="C" class="mr-2"> Share with others</label>
+  <p class="explain hidden text-sm text-gray-400">Verify first — account may be hacked.</p>
+</fieldset>
+
+<fieldset class="border border-gray-800 rounded-lg p-5 space-y-3" data-qid="q4" data-correct="False">
+  <legend class="font-semibold">4) Banks or HR may ask for your OTP via SMS.</legend>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q4" value="True" class="mr-2"> True</label>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q4" value="False" class="mr-2"> False</label>
+  <p class="explain hidden text-sm text-gray-400">Legitimate orgs never ask for codes.</p>
+</fieldset>
+
+<fieldset class="border border-gray-800 rounded-lg p-5 space-y-3" data-qid="q5" data-correct="A">
+  <legend class="font-semibold">5) Unknown calendar invite with a link.</legend>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q5" value="A" class="mr-2"> Verify or delete</label>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q5" value="B" class="mr-2"> Click to check</label>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q5" value="C" class="mr-2"> Forward it</label>
+  <p class="explain hidden text-sm text-gray-400">Unknown links may be malicious.</p>
+</fieldset>
+
+<fieldset class="border border-gray-800 rounded-lg p-5 space-y-3" data-qid="q6" data-correct="True">
+  <legend class="font-semibold">6) “Manager” urgently asks for gift cards.</legend>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q6" value="True" class="mr-2"> True</label>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q6" value="False" class="mr-2"> False</label>
+  <p class="explain hidden text-sm text-gray-400">This is a common scam.</p>
+</fieldset>
+
+<fieldset class="border border-gray-800 rounded-lg p-5 space-y-3" data-qid="q7" data-correct="C">
+  <legend class="font-semibold">7) Someone pretending to be a manager asks for money urgently.</legend>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q7" value="A" class="mr-2"> Send money fast</label>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q7" value="B" class="mr-2"> Ask why</label>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q7" value="C" class="mr-2"> Verify identity + report</label>
+  <p class="explain hidden text-sm text-gray-400">Always confirm via phone + report.</p>
+</fieldset>
+
+<fieldset class="border border-gray-800 rounded-lg p-5 space-y-3" data-qid="q8" data-correct="False">
+  <legend class="font-semibold">8) Caller asks for your ID to “verify your account.”</legend>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q8" value="True" class="mr-2"> True</label>
+  <label class="block border border-gray-700 rounded-lg p-3 hover:bg-gray-800 cursor-pointer"><input type="radio" name="q8" value="False" class="mr-2"> False</label>
+  <p class="explain hidden text-sm text-gray-400">Call the bank directly instead.</p>
+</fieldset>
+
+</form>
+
+<div class="flex flex-wrap gap-3">
+  <button id="submitBtn" type="button" class="px-4 py-2 rounded-lg font-semibold bg-cyan-400 text-gray-900 hover:bg-cyan-300 transition">Submit & Score</button>
+  <button id="revealBtn" type="button" aria-pressed="false" class="px-4 py-2 rounded-lg font-semibold bg-gray-800 border border-gray-700 hover:border-gray-500 transition">Reveal Answers</button>
+  <button id="resetBtn" type="button" class="px-4 py-2 rounded-lg font-semibold border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition">Reset</button>
+</div>
+
+<section id="scorecard" class="hidden rounded-lg border border-gray-800 bg-gray-900 p-6" aria-live="polite">
+  <p id="scoreText" class="text-xl font-bold mb-1"></p>
+  <p id="summary" class="text-gray-400 text-sm"></p>
+</section>
+
+<footer class="text-center text-gray-400 text-sm pt-6 border-t border-gray-800">
+  <h3 class="font-semibold text-gray-200">Thank you for completing the Security Awareness Quiz.</h3>
+  <p>Remember: <strong>Your attention and caution help protect.</strong></p>
+  <p>If something feels unusual, urgent, or suspicious, <strong>stop, verify, and ask.</strong></p>
+  <p>Staying aware keeps everyone safe.</p>
+</footer>
+
+</main>
+
+<script>
+const quiz = document.getElementById('quiz');
+const fieldsets = Array.from(quiz.querySelectorAll('fieldset'));
+const totalCountEl = document.getElementById('totalCount');
+const answeredCountEl = document.getElementById('answeredCount');
+const percentEl = document.getElementById('percent');
+const progressFill = document.getElementById('progressFill');
+const submitBtn = document.getElementById('submitBtn');
+const revealBtn = document.getElementById('revealBtn');
+const resetBtn = document.getElementById('resetBtn');
+const scorecard = document.getElementById('scorecard');
+const scoreText = document.getElementById('scoreText');
+const summary = document.getElementById('summary');
+
+totalCountEl.textContent = fieldsets.length;
+
+function updateProgress() {
+  let answered = 0;
+  fieldsets.forEach(fs => {
+    const checked = fs.querySelector('input:checked');
+    if (checked) answered++;
+  });
+  const pct = Math.round((answered / fieldsets.length) * 100);
+  answeredCountEl.textContent = answered;
+  percentEl.textContent = pct + '%';
+  progressFill.style.width = pct + '%';
+}
+quiz.addEventListener('change', updateProgress);
+
+function gradeQuiz({reveal=false} = {}) {
+  let correct = 0;
+  fieldsets.forEach(fs => {
+    const correctVal = fs.dataset.correct;
+    const checked = fs.querySelector('input:checked');
+    const labels = Array.from(fs.querySelectorAll('label'));
+    labels.forEach(l => l.classList.remove('correct','incorrect'));
+    if (checked) {
+      const chosenLabel = checked.parentElement;
+      if (checked.value === correctVal) {
+        correct++;
+        chosenLabel.classList.add('correct');
+      } else {
+        chosenLabel.classList.add('incorrect');
+        const correctInput = fs.querySelector(`input[value="${correctVal}"]`);
+        if (correctInput) correctInput.parentElement.classList.add('correct');
+      }
+    } else if (reveal) {
+      const correctInput = fs.querySelector(`input[value="${correctVal}"]`);
+      if (correctInput) correctInput.parentElement.classList.add('correct');
+    }
+    const explain = fs.querySelector('.explain');
+    if (checked || reveal) explain.classList.remove('hidden');
+    else explain.classList.add('hidden');
+  });
+  const pct = Math.round((correct / fieldsets.length) * 100);
+  scoreText.textContent = `Score: ${correct}/${fieldsets.length} (${pct}%)`;
+  summary.textContent = pct >= 80 ? "Great awareness!" : "Review and try again.";
+  scorecard.classList.remove('hidden');
+}
+
+submitBtn.addEventListener('click', () => {
+  const unanswered = fieldsets.filter(fs => !fs.querySelector('input:checked'));
+  if (unanswered.length > 0) {
+    alert('Please answer all questions before submitting.');
+    unanswered[0].scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+  gradeQuiz();
+});
+
+revealBtn.addEventListener('click', () => gradeQuiz({reveal:true}));
+
+resetBtn.addEventListener('click', () => location.reload());
+
+updateProgress();
+</script>
+
+</body>
+</html>
